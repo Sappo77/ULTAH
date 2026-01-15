@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎵 Musik Birthday</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #ff9a9e, #fecfef, #fecfef, #fad0c4);
+    min-height: 100vh;
+    padding: 20px;
+    position: relative;
+    overflow-x: hidden;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="20">🎂</text></svg>') 0 0/100px 100px,
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="15">🎈</text></svg>') 50px 50px/80px 80px,
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="18">🎉</text></svg>') 25px 25px/120px 120px;
+    opacity: 0.1;
+    animation: float 20s ease-in-out infinite;
+    pointer-events: none;
+    z-index: -1;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: rgba(255,255,255,0.95);
+    border-radius: 25px;
+    padding: 40px;
+    box-shadow: 0 25px 50px rgba(255,182,193,0.4);
+    border: 2px solid rgba(255,192,203,0.3);
+    backdrop-filter: blur(10px);
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.header h1 {
+    background: linear-gradient(135deg, #ff6b9d, #c44569);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.back-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    border: none;
+    border-radius: 25px;
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    box-shadow: 0 5px 15px rgba(255,154,158,0.4);
+    transition: all 0.3s ease;
+}
+
+.back-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+.music-player {
+    background: linear-gradient(135deg, #ff6b9d, #c44569);
+    border-radius: 20px;
+    padding: 30px;
+    color: white;
+    margin-bottom: 30px;
+    text-align: center;
+    box-shadow: 0 15px 35px rgba(255,107,157,0.3);
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+.current-song {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin: 20px 0;
+}
+
+.control-btn {
+    background: rgba(255,255,255,0.2);
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    color: white;
+    font-size: 1.5em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.control-btn:hover {
+    background: rgba(255,255,255,0.3);
+    transform: scale(1.1);
+}
+
+.play-btn {
+    width: 80px;
+    height: 80px;
+    font-size: 2em;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: rgba(255,255,255,0.3);
+    border-radius: 4px;
+    margin: 20px 0;
+    overflow: hidden;
+}
+
+.progress {
+    height: 100%;
+    background: white;
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+.playlist {
+    margin-top: 30px;
+}
+
+.playlist h3 {
+    background: linear-gradient(135deg, #ff6b9d, #c44569);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 20px;
+    font-size: 1.5em;
+    text-align: center;
+}
+
+.song-item {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    background: rgba(255,182,193,0.2);
+    border-radius: 15px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255,192,203,0.3);
+}
+
+.song-item:hover {
+    background: rgba(255,182,193,0.4);
+    transform: translateX(5px) scale(1.02);
+    box-shadow: 0 5px 15px rgba(255,182,193,0.3);
+}
+
+.song-item.active {
+    background: linear-gradient(135deg, #ff6b9d, #c44569);
+    color: white;
+    box-shadow: 0 8px 20px rgba(255,107,157,0.4);
+}
+
+.song-icon {
+    font-size: 1.5em;
+    margin-right: 15px;
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    color: white;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(255,154,158,0.4);
+    border: 2px solid rgba(255,255,255,0.3);
+}
+
+.song-info {
+    flex: 1;
+}
+
+.song-title {
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.song-duration {
+    font-size: 0.9em;
+    opacity: 0.7;
+}
+
+/* Animasi ELIKA Styles */
+.elika-animation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #ff9a9e, #fecfef, #fad0c4);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: fadeOut 1s ease-in-out 3s forwards;
+}
+
+.elika-animation::before {
+    content: '🎂🎈🎉🎁🎊';
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 3em;
+    animation: bounce 2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(-20px); }
+}
+
+.elika-title-anim {
+    font-size: 6em;
+    font-weight: 700;
+    background: linear-gradient(45deg, #ff6b9d, #c44569, #ff9a9e);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 30px rgba(255,255,255,0.8);
+    animation: titlePulse 2s ease-in-out, titleFade 0.5s ease-in-out 2.5s forwards;
+}
+
+.elika-letters-anim {
+    display: flex;
+    gap: 30px;
+    margin-top: 30px;
+    opacity: 0;
+    animation: lettersShow 0.5s ease-in-out 2s forwards;
+}
+
+.letter-anim {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2em;
+    font-weight: 600;
+    box-shadow: 0 10px 30px rgba(255,154,158,0.5);
+    border: 3px solid rgba(255,255,255,0.4);
+    animation: letterBounce 0.6s ease-in-out;
+}
+
+.letter-anim:nth-child(1) { animation-delay: 2.1s; }
+.letter-anim:nth-child(2) { animation-delay: 2.2s; }
+.letter-anim:nth-child(3) { animation-delay: 2.3s; }
+.letter-anim:nth-child(4) { animation-delay: 2.4s; }
+.letter-anim:nth-child(5) { animation-delay: 2.5s; }
+
+@keyframes titlePulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+@keyframes titleFade {
+    to { opacity: 0; transform: translateY(-50px); }
+}
+
+@keyframes lettersShow {
+    to { opacity: 1; }
+}
+
+@keyframes letterBounce {
+    0% { transform: scale(0) rotate(180deg); }
+    60% { transform: scale(1.2) rotate(0deg); }
+    100% { transform: scale(1) rotate(0deg); }
+}
+
+@keyframes fadeOut {
+    to { opacity: 0; visibility: hidden; }
+}
+
+/* Radio Player Styles */
+.radio-player {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    margin-bottom: 20px;
+}
+
+.vinyl-container {
+    position: relative;
+    width: 120px;
+    height: 120px;
+}
+
+.vinyl-record {
+    width: 120px;
+    height: 120px;
+    background: radial-gradient(circle, #333 30%, #000 70%);
+    border-radius: 50%;
+    position: relative;
+    transition: transform 0.3s ease;
+}
+
+.vinyl-record.spinning {
+    animation: spin 3s linear infinite;
+}
+
+.vinyl-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 20px;
+    height: 20px;
+    background: linear-gradient(135deg, #ff6b9d, #c44569);
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(255,107,157,0.4);
+}
+
+.vinyl-lines {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    border: 2px solid rgba(255,255,255,0.1);
+    border-radius: 50%;
+}
+
+.vinyl-lines::before {
+    content: '';
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    right: 15px;
+    bottom: 15px;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 50%;
+}
+
+.singer-image {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid rgba(255,255,255,0.8);
+    box-shadow: 0 5px 15px rgba(255,182,193,0.4);
+}
+
+.singer-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    animation: spin 3s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes glow {
+    from { text-shadow: 0 0 20px rgba(102,126,234,0.5); }
+    to { text-shadow: 0 0 30px rgba(255,107,107,0.8); }
+}
+</style>
+</head>
+
+<body>
+
+<a href="index.html" class="back-btn">
+    <i class="fas fa-arrow-left"></i> Kembali
+</a>
+
+<div class="container">
+    <!-- Animasi ELIKA -->
+    <div class="elika-animation" id="elikaAnimation">
+        <div class="elika-title-anim">ELIKA</div>
+        <div class="elika-letters-anim">
+            <span class="letter-anim" id="letterE">E</span>
+            <span class="letter-anim" id="letterL">L</span>
+            <span class="letter-anim" id="letterI">I</span>
+            <span class="letter-anim" id="letterK">K</span>
+            <span class="letter-anim" id="letterA">A</span>
+        </div>
+    </div>
+
+    <!-- Main Music Player -->
+    <div class="main-player" id="mainPlayer" style="opacity: 0;">
+        <div class="header">
+            <h1>🎵 Musik Birthday</h1>
+            <p>Dengarkan lagu-lagu spesial untuk perayaanmu!</p>
+        </div>
+
+        <div class="music-player">
+            <!-- Radio Player dengan gambar penyanyi -->
+            <div class="radio-player">
+                <div class="vinyl-container">
+                    <div class="vinyl-record" id="vinylRecord">
+                        <div class="vinyl-center"></div>
+                        <div class="vinyl-lines"></div>
+                    </div>
+                    <div class="singer-image" id="singerImage">
+                        <img src="https://via.placeholder.com/150x150/ff6b6b/ffffff?text=🎤" alt="Singer" id="singerImg">
+                    </div>
+                </div>
+                <div class="song-info-main">
+                    <div class="current-song" id="currentSong">Everything You Are</div>
+                    <div class="current-singer" id="currentSinger">Hindia</div>
+                </div>
+            </div>
+            
+            <div class="controls">
+                <button class="control-btn" onclick="previousSong()">
+                    <i class="fas fa-step-backward"></i>
+                </button>
+                <button class="control-btn play-btn" onclick="togglePlay()" id="playBtn">
+                    <i class="fas fa-play"></i>
+                </button>
+                <button class="control-btn" onclick="nextSong()">
+                    <i class="fas fa-step-forward"></i>
+                </button>
+            </div>
+
+            <div class="progress-bar">
+                <div class="progress" id="progress"></div>
+            </div>
+        </div>
+
+        <div class="playlist">
+            <h3>🎶 Daftar Lagu ELIKA</h3>
+            
+            <div class="song-item active" onclick="playSong(0)">
+                <div class="song-icon" style="opacity: 0;">E</div>
+                <div class="song-info">
+                    <div class="song-details">
+                        <div class="song-title">verything You Are</div>
+                        <div class="song-artist">Hindia</div>
+                    </div>
+                    <div class="song-duration">3:56</div>
+                </div>
+            </div>
+
+            <div class="song-item" onclick="playSong(1)">
+                <div class="song-icon" style="opacity: 0;">L</div>
+                <div class="song-info">
+                    <div class="song-details">
+                        <div class="song-title">esung Pipi</div>
+                        <div class="song-artist">Raim Laode</div>
+                    </div>
+                    <div class="song-duration">3:46</div>
+                </div>
+            </div>
+
+            <div class="song-item" onclick="playSong(2)">
+                <div class="song-icon" style="opacity: 0;">I</div>
+                <div class="song-info">
+                    <div class="song-details">
+                        <div class="song-title">ni Cinta</div>
+                        <div class="song-artist">Noah</div>
+                    </div>
+                    <div class="song-duration">3:18</div>
+                </div>
+            </div>
+
+            <div class="song-item" onclick="playSong(3)">
+                <div class="song-icon" style="opacity: 0;">K</div>
+                <div class="song-info">
+                    <div class="song-details">
+                        <div class="song-title">amu</div>
+                        <div class="song-artist">Nano</div>
+                    </div>
+                    <div class="song-duration">4:32</div>
+                </div>
+            </div>
+
+            <div class="song-item" onclick="playSong(4)">
+                <div class="song-icon" style="opacity: 0;">A</div>
+                <div class="song-info">
+                    <div class="song-details">
+                        <div class="song-title">bout You</div>
+                        <div class="song-artist">The 1975</div>
+                    </div>
+                    <div class="song-duration">5:27</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<audio id="audioPlayer" preload="auto">
+    <source src="musik1.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const songs = [
+    { 
+        title: "Everything You Are", 
+        file: "lagu/Hindia - everything u are [lB8ASupNtlw].mp3", 
+        duration: "3:56",
+        singer: "Hindia",
+        image: "https://i2.wp.com/wwx.zona-lagu.net/data/cover/dove.jpg?resize=300,300"
+    },
+    { 
+        title: "Lesung Pipi", 
+        file: "lagu/Raim Laode - Lesung Pipi ( video lirik official ) [mJE0ROBWPvY].mp3", 
+        duration: "3:46",
+        singer: "Raim Laode",
+        image: "https://i2.wp.com/wwx.zona-lagu.net/data/cover/8004.jpg?resize=300,300"
+    },
+    { 
+        title: "Ini Cinta", 
+        file: "lagu/NOAH - Ini Cinta (Official Audio) [xNQznbAuxcE].mp3", 
+        duration: "3:18",
+        singer: "Noah",
+        image: "https://i.ytimg.com/vi/xNQznbAuxcE/mqdefault.jpg"
+    },
+    { 
+        title: "Kamu", 
+        file: "lagu/Nano - Kamu (Official Music Video) _ Soundtrack Dari Jendela SMP [F8DbubsX7nE].mp3", 
+        duration: "4:32",
+        singer: "Nano",
+        image: "https://i.ytimg.com/vi/F8DbubsX7nE/mqdefault.jpg"
+    },
+    { 
+        title: "About You", 
+        file: "lagu/The 1975 - About You (Official) [tGv7CUutzqU].mp3", 
+        duration: "5:27",
+        singer: "The 1975",
+        image: "https://i.ytimg.com/vi/tGv7CUutzqU/mqdefault.jpg"
+    }
+];
+
+let currentSongIndex = 0;
+let isPlaying = false;
+const audioPlayer = document.getElementById('audioPlayer');
+const playBtn = document.getElementById('playBtn');
+const currentSongEl = document.getElementById('currentSong');
+const progressEl = document.getElementById('progress');
+const vinylRecord = document.getElementById('vinylRecord');
+const singerImg = document.getElementById('singerImg');
+const singerImage = document.getElementById('singerImage');
+
+// Auto start animation when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    // Start vinyl spinning immediately
+    vinylRecord.classList.add('spinning');
+    
+    setTimeout(() => {
+        moveLettersToSongs();
+    }, 3000);
+    
+    setTimeout(() => {
+        document.getElementById('mainPlayer').style.opacity = '1';
+        document.getElementById('mainPlayer').style.transition = 'opacity 1s ease-in-out';
+    }, 4000);
+});
+
+function moveLettersToSongs() {
+    const letters = ['E', 'L', 'I', 'K', 'A'];
+    const songIcons = document.querySelectorAll('.song-icon');
+    
+    letters.forEach((letter, index) => {
+        const letterEl = document.getElementById(`letter${letter}`);
+        const targetIcon = songIcons[index];
+        
+        if (letterEl && targetIcon) {
+            const targetRect = targetIcon.getBoundingClientRect();
+            const letterRect = letterEl.getBoundingClientRect();
+            
+            letterEl.style.position = 'fixed';
+            letterEl.style.left = letterRect.left + 'px';
+            letterEl.style.top = letterRect.top + 'px';
+            letterEl.style.zIndex = '1001';
+            letterEl.style.transition = 'all 1s ease-in-out';
+            
+            setTimeout(() => {
+                letterEl.style.left = targetRect.left + 'px';
+                letterEl.style.top = targetRect.top + 'px';
+                letterEl.style.width = '40px';
+                letterEl.style.height = '40px';
+                letterEl.style.fontSize = '1em';
+                letterEl.style.borderRadius = '8px';
+            }, 100);
+            
+            setTimeout(() => {
+                letterEl.style.opacity = '0';
+                targetIcon.style.opacity = '1';
+                targetIcon.style.transform = 'scale(1.2)';
+                setTimeout(() => {
+                    targetIcon.style.transform = 'scale(1)';
+                    targetIcon.style.transition = 'transform 0.3s ease';
+                }, 200);
+            }, 1100);
+        }
+    });
+}
+
+function togglePlay() {
+    if (isPlaying) {
+        audioPlayer.pause();
+        playBtn.innerHTML = '<i class="fas fa-play"></i>';
+        vinylRecord.classList.remove('spinning');
+        singerImg.style.animationPlayState = 'paused';
+        isPlaying = false;
+    } else {
+        audioPlayer.play();
+        playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+        vinylRecord.classList.add('spinning');
+        singerImg.style.animationPlayState = 'running';
+        isPlaying = true;
+    }
+}
+
+function playSong(index) {
+    currentSongIndex = index;
+    audioPlayer.src = songs[index].file;
+    currentSongEl.textContent = songs[index].title;
+    document.getElementById('currentSinger').textContent = songs[index].singer;
+    
+    // Update singer image
+    if (singerImg) {
+        singerImg.src = songs[index].image;
+        singerImg.alt = songs[index].singer;
+    }
+    
+    // Update active song in playlist
+    document.querySelectorAll('.song-item').forEach((item, i) => {
+        item.classList.toggle('active', i === index);
+    });
+    
+    if (isPlaying) {
+        audioPlayer.play();
+    }
+}
+
+function nextSong() {
+    currentSongIndex = (currentSongIndex + 1) % songs.length;
+    playSong(currentSongIndex);
+}
+
+function previousSong() {
+    currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
+    playSong(currentSongIndex);
+}
+
+// Update progress bar
+audioPlayer.addEventListener('timeupdate', () => {
+    if (audioPlayer.duration) {
+        const progress = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+        progressEl.style.width = progress + '%';
+    }
+});
+
+// Auto play next song when current ends
+audioPlayer.addEventListener('ended', nextSong);
+</script>
+
+</body>
+</html>
+<style>
+.song-info-main {
+    text-align: left;
+    flex: 1;
+    max-width: 300px;
+}
+
+.current-singer {
+    font-size: 1.1em;
+    opacity: 0.9;
+    font-weight: 500;
+    margin-bottom: 0;
+}
+
+.song-info {
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.song-details {
+    flex: 1;
+}
+
+.song-artist {
+    font-size: 0.9em;
+    opacity: 0.75;
+    margin-bottom: 0;
+    font-weight: 500;
+}
+
+.song-duration {
+    font-size: 0.85em;
+    opacity: 0.6;
+    font-weight: 600;
+    background: rgba(255,255,255,0.2);
+    padding: 4px 8px;
+    border-radius: 12px;
+    min-width: 45px;
+    text-align: center;
+}
+
+.radio-player {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    margin-bottom: 30px;
+    justify-content: center;
+}
+
+.current-song {
+    font-size: 1.8em;
+    margin-bottom: 8px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.song-item {
+    display: flex;
+    align-items: center;
+    padding: 18px 20px;
+    background: rgba(255,182,193,0.15);
+    border-radius: 18px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255,192,203,0.2);
+}
+
+.song-title {
+    font-weight: 700;
+    margin-bottom: 4px;
+    font-size: 1.05em;
+}
+</style>

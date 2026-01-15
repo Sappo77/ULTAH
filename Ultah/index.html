@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>💕 Birthday 🎂</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Press Start 2P', cursive;
+    background: linear-gradient(45deg, #1625fa, #764ba2, #000000, #f5576c);
+    background-size: 400% 400%;
+    animation: gameBackground 8s ease infinite;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+
+@keyframes gameBackground {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* ================= GAME CONTAINER ================= */
+.game-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    position: relative;
+    z-index: 10;
+}
+
+.game-title {
+    color: white;
+    font-size: 2.5em;
+    text-shadow: 4px 4px 0px #333, 8px 8px 0px rgba(0,0,0,0.3);
+    margin-bottom: 20px;
+    animation: titlePulse 2s ease-in-out infinite;
+}
+
+.game-subtitle {
+    font-family: 'Poppins', sans-serif;
+    color: rgba(255,255,255,0.9);
+    font-size: 1.2em;
+    margin-bottom: 50px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+/* ================= MENU BUTTONS ================= */
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    max-width: 600px;
+}
+
+.menu-button {
+    width: 250px;
+    height: 120px;
+    border: 4px solid #fff;
+    border-radius: 15px;
+    background: linear-gradient(145deg, #667eea, #764ba2);
+    color: white;
+    font-size: 1em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+}
+
+.menu-button:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+    border-color: #feca57;
+}
+
+.menu-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s;
+}
+
+.menu-button:hover::before {
+    left: 100%;
+}
+
+.button-icon {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
+}
+
+.button-text {
+    font-size: 0.8em;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+/* ================= BUTTON COLORS ================= */
+.btn-music {
+    background: linear-gradient(145deg, #ffcaca, #ee5a52);
+}
+
+.btn-photo {
+    background: linear-gradient(145deg, #f3a6dc, #ef41ff);
+}
+
+.btn-message {
+    background: linear-gradient(145deg, #feca57, #ff9ff3);
+}
+
+.btn-video {
+    background: linear-gradient(145deg, #06d1ff, #e3e0e0);
+}
+
+/* ================= FLOATING ELEMENTS ================= */
+.floating-element {
+    position: absolute;
+    font-size: 2em;
+    animation: float 6s ease-in-out infinite;
+    opacity: 0.7;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-30px) rotate(180deg); }
+}
+
+@keyframes titlePulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+/* ================= PARTICLES ================= */
+.particle {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: rgba(255,255,255,0.8);
+    border-radius: 50%;
+    animation: particleFloat 8s linear infinite;
+}
+
+@keyframes particleFloat {
+    0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 768px) {
+    .game-title { font-size: 1.8em; }
+    .menu-grid { 
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    .menu-button {
+        width: 280px;
+        height: 100px;
+    }
+    .button-icon { font-size: 2em; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="game-container">
+    <h1 class="game-title">💕 HAPPY BIRTHDAY SAYANGG 🎂</h1>
+    <p class="game-subtitle">Silahkan pilih menunya love hehe!!</p>
+    
+    <div class="menu-grid">
+        <a href="musik.html" class="menu-button btn-music">
+            <div class="button-icon">🎵</div>
+            <div class="button-text">MUSIK</div>
+        </a>
+        
+        <a href="foto.html" class="menu-button btn-photo">
+            <div class="button-icon">📸</div>
+            <div class="button-text">FOTO</div>
+        </a>
+        
+        <a href="ucapan.html" class="menu-button btn-message">
+            <div class="button-icon">💌</div>
+            <div class="button-text">UCAPAN</div>
+        </a>
+        
+        <a href="video.html" class="menu-button btn-video">
+            <div class="button-icon">🎬</div>
+            <div class="button-text">VIDEO</div>
+        </a>
+    </div>
+</div>
+
+<!-- Floating Elements -->
+<div class="floating-element" style="top: 10%; left: 10%; animation-delay: 0s;">🎈</div>
+<div class="floating-element" style="top: 20%; right: 15%; animation-delay: 1s;">🎉</div>
+<div class="floating-element" style="bottom: 20%; left: 20%; animation-delay: 2s;">🎂</div>
+<div class="floating-element" style="bottom: 10%; right: 10%; animation-delay: 3s;">🎁</div>
+
+<!-- Background Music -->
+<audio id="bgMusic" loop autoplay>
+    <source src="lagu/1 Hour of Nonstop Happy Birthday Songs for Your Special Day!.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+// Create floating particles
+function createParticles() {
+    for (let i = 0; i < 30; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.animationDelay = Math.random() * 8 + 's';
+        particle.style.animationDuration = (Math.random() * 4 + 6) + 's';
+        document.body.appendChild(particle);
+    }
+}
+
+// Add sound effects (optional)
+document.querySelectorAll('.menu-button').forEach(button => {
+    button.addEventListener('mouseenter', () => {
+        // Add hover sound effect here if needed
+    });
+});
+
+// Initialize
+document.addEventListener('DOMContentLoaded', function() {
+    createParticles();
+    
+    // Auto play background music
+    const bgMusic = document.getElementById('bgMusic');
+    bgMusic.volume = 0.3; // Set volume to 30%
+    
+    // Try to play music (some browsers require user interaction)
+    bgMusic.play().catch(e => {
+        console.log('Autoplay prevented, music will play on first user interaction');
+        
+        // Play music on first user interaction
+        document.addEventListener('click', function playOnClick() {
+            bgMusic.play();
+            document.removeEventListener('click', playOnClick);
+        }, { once: true });
+    });
+});
+</script>
+
+</body>
+</html>
