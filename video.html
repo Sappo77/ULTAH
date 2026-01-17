@@ -169,11 +169,13 @@
 
     <a href="index.html" class="back-btn">⬅ Kembali</a>
 
-    <div class="video-scene">
-        <video id="mainVideo" controls preload="auto">
-            <source src="Video/video-utama.mp4" type="video/mp4">
-        </video>
-    </div>
+    <iframe
+        id="mainVideo"
+        src="https://drive.google.com/file/d/1BPcLiwPbvFMqe3GaF0UUWNtl0wEnhNHc/preview"
+        allow="autoplay; fullscreen"
+        allowfullscreen
+        style="width:100vw; height:100vh; border:none;">
+    </iframe>
 
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
@@ -183,8 +185,8 @@
             const video = document.getElementById('mainVideo');
             const body = document.body;
 
-            video.load();
-            video.onloadeddata = () => { video.currentTime = 0.1; };
+            // video.load();
+            // video.onloadeddata = () => { video.currentTime = 0.1; };
 
             // Alur: Intro -> Buka Gorden -> Efek Petasan -> Video
             setTimeout(() => {
@@ -202,7 +204,7 @@
                     // 3. Munculkan Video
                     setTimeout(() => {
                         body.classList.add('show-video');
-                        video.play().catch(e => console.log("Manual play needed"));
+                        // video.play().catch(e => console.log("Manual play needed"));
                     }, 200); 
 
                 }, 800);
